@@ -18,12 +18,11 @@ from terminatorlib.paned import Paned, HPaned, VPaned
 from terminatorlib.window import Window
 from terminatorlib.terminal import Terminal
 from terminatorlib.notebook import Notebook
-
-from xml.etree.ElementTree import parse
 from xml.etree import ElementTree
 
 from os.path import splitext, isfile, exists, join
 from os import listdir, makedirs, linesep
+import defusedxml.ElementTree
 
 LAYOUTMANAGER_NAME = 'LayoutManager'
 LAYOUTMANAGER_DISPLAY_NAME = 'Layout Manager'
@@ -330,7 +329,7 @@ class LayoutManager(plugin.MenuItem):
         filename = join(self.config_dir, filename)
         dbg('loading Layout config [%s]' % filename)
 
-        return parse(filename)
+        return defusedxml.ElementTree.parse(filename)
 
     def init_root(self, root_element):
         set_split_ratios = self.try_get_xml_attribute(root_element, SET_SPLIT_RATIOS_ATTRIBUTE, 'false')
